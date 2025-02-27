@@ -33,4 +33,8 @@ public class Cart {
         this.total_amount = 0d;
     }
 
+    public void addItem(ItemCart ic){
+        this.items.add(ic);
+    }
+
 }

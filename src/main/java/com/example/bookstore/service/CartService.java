@@ -165,6 +165,6 @@ public class CartService {
         this.cartsRepository.save(toDeleteCart);
 
         // Return the updated CartDTO
-        return new CartDTO(toDeleteCart.getId(), itemCartDTOS, toDeleteCart.getTotal_amount(), user_id);
+        return new CartDTO(toDeleteCart.getId(), new ArrayList<>(), toDeleteCart.getTotal_amount(), user_id);
     }
 }
