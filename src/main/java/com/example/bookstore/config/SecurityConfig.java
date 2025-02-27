@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/cart/**").permitAll()
+                        .requestMatchers("/auth/**","/api/**").permitAll()
                         //requestMatchers("/cart/**").authenticated() // Allow login & register
                         .anyRequest().authenticated() // Secure all other endpoints
                 )
