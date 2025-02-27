@@ -45,12 +45,7 @@ public class BookService {
 
         if(existingBook.isPresent()){
             Book b = existingBook.get();
-            return new BookDTO(b.getId(),
-                    b.getName(),
-                    b.getDescription(),
-                    b.getAuthor(),
-                    b.getCategory(),
-                    b.getPrice());
+            return new BookDTO(b);
         }else {
             return null;
         }

@@ -108,12 +108,13 @@ public class CartService {
             throw new RuntimeException("Item Cart not found!");
         }
 
+        ItemCart selectedItem = cart.getItems().get(itemIndex);
 
         // If the quantity is 1 or less, remove the item
-        if (cart.getItems().get(itemIndex).getQuantity() - 1 > 0) {
+        if (selectedItem.getQuantity() - 1 > 0) {
             // Decrease the quantity of the item
-            cart.getItems().get(itemIndex).setQuantity(cart.getItems().get(itemIndex).getQuantity() - 1);
-            cart.getItems().get(itemIndex).setTotal_amount(cart.getItems().get(itemIndex).getQuantity() * cart.getItems().get(itemIndex).getItem().getPrice());
+            cart.getItems().get(itemIndex).setQuantity(selectedItem.getQuantity() - 1);
+            cart.getItems().get(itemIndex).setTotal_amount(selectedItem.getQuantity() * selectedItem.getItem().getPrice());
 
         } else {
             // Delete the item from the repository before removing from the list

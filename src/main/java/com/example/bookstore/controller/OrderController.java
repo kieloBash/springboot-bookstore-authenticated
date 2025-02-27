@@ -66,7 +66,22 @@ public class OrderController {
     public ResponseEntity<List<OrderDTO>> getAllUserOrders(Principal principal){
         String username = principal.getName();
 
-        return ResponseEntity.ok(this.ordersService.getAllUserOrder(username));
+        try{
+            List<OrderDTO> orderDTOList = this.ordersService.getAllUserOrder(username);
+            return ResponseEntity.ok(orderDTOList);
+
+        } catch (RuntimeException ex) {
+            if (ex.getMessage().contains("User not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);  // User not found
+            } else if (ex.getMessage().contains("Book does not exist")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);  // Invalid book in cart
+            } else {
+                // Generic error for other runtime exceptions
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        }
+
+
     }
 
 }
