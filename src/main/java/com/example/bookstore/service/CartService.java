@@ -36,6 +36,14 @@ public class CartService {
         this.itemCartsRepository = itemCartsRepository;
     }
 
+    /**
+     * Retrieves the cart of a user based on their username.
+     * If no cart is found, a new cart is created for the user.
+     *
+     * @param username The username of the user whose cart is to be retrieved.
+     * @return A CartDTO containing the user's cart details, including the list of items and the total amount.
+     * @throws RuntimeException If the user cannot be found.
+     */
     public CartDTO getUserCart(String username){
         User user = this.usersRepository.findByUsername(username).orElseThrow(()->  new RuntimeException("User not found"));
         Integer user_id = Integer.parseInt(String.valueOf(user.getId()));
@@ -55,6 +63,14 @@ public class CartService {
         return new CartDTO(cart.getId(), itemCartDTOS, cart.getTotal_amount(),user_id);
     }
 
+    /**
+     * Adds a book to the user's cart. If the book is already in the cart, the quantity is incremented.
+     *
+     * @param username The username of the user to whose cart the book is to be added.
+     * @param book_id  The ID of the book to be added to the cart.
+     * @return True if the book was successfully added or quantity updated; false otherwise.
+     * @throws RuntimeException If the user or book cannot be found.
+     */
     @Transactional
     public boolean addBookToCart(String username, Integer book_id){
         User user = this.usersRepository.findByUsername(username).orElseThrow(()->  new RuntimeException("User not found"));
@@ -84,7 +100,15 @@ public class CartService {
         return true;
     }
 
-
+    /**
+     * Removes a book from the user's cart. If the quantity of the book is greater than 1, the quantity is decreased.
+     * If the quantity is 1, the book is removed from the cart entirely.
+     *
+     * @param username The username of the user whose cart the book is to be removed from.
+     * @param book_id  The ID of the book to be removed from the cart.
+     * @return True if the book was successfully removed; false otherwise.
+     * @throws RuntimeException If the user, book, or cart cannot be found.
+     */
     @Transactional
     public boolean removeBookToCart(String username, Integer book_id) {
         User user = this.usersRepository.findByUsername(username).orElseThrow(()->  new RuntimeException("User not found"));
@@ -133,6 +157,13 @@ public class CartService {
         return true;
     }
 
+    /**
+     * Clears all items from the user's cart, setting the total amount to 0.
+     *
+     * @param username The username of the user whose cart is to be cleared.
+     * @return A CartDTO representing the cleared cart.
+     * @throws RuntimeException If the user or cart cannot be found.
+     */
     @Transactional
     public CartDTO clearCart(String username){
         User user = this.usersRepository.findByUsername(username).orElseThrow(()->  new RuntimeException("User not found"));

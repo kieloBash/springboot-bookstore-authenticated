@@ -20,6 +20,13 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Retrieves a list of all books, optionally filtered by name and/or category.
+     *
+     * @param filterName    The name to filter books by (optional).
+     * @param filterCategory The category to filter books by (optional).
+     * @return A list of BookDTO objects containing book details.
+     */
     public List<BookDTO> getAllBooks(String filterName, String filterCategory) {
         System.out.println("Service starts...");
         List<Book> booksList = this.bookRepository.findAll();
@@ -43,6 +50,13 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * Retrieves a book by its ID.
+     *
+     * @param id The ID of the book to retrieve.
+     * @return A BookDTO object containing book details, or null if the book is not found.
+     */
     public BookDTO getBookById(Integer id){
         Optional<Book> existingBook = this.bookRepository.findById(id);
 
@@ -54,6 +68,11 @@ public class BookService {
         }
     }
 
+    /**
+     * Retrieves a list of all unique book categories.
+     *
+     * @return A list of unique book categories.
+     */
     public List<String> getAllBookCategories() {
         List<Book> booksList = this.bookRepository.findAll();
 

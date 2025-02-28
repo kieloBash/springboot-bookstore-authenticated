@@ -24,6 +24,12 @@ public class CartController {
         this.cartsService = cartsService;
     }
 
+    /**
+     * Retrieves the current user's cart details.
+     *
+     * @param principal The authenticated user's principal object containing their username.
+     * @return A ResponseEntity containing the CartDTO if found, or a 404 if not.
+     */
     @GetMapping
     public ResponseEntity<CartDTO> getCart(Principal principal) {
         String username = principal.getName();
@@ -43,6 +49,14 @@ public class CartController {
         }
     }
 
+    /**
+     * Adds a book to the user's cart.
+     * If the book is already in the cart, its quantity is incremented.
+     *
+     * @param principal The authenticated user's principal object containing their username.
+     * @param book_id   The ID of the book to be added to the cart.
+     * @return A ResponseEntity indicating the result of the operation (e.g., 204 No Content on success).
+     */
     @PostMapping("/add-item")
     public ResponseEntity<Void> addItemToCart(Principal principal,
                                               @RequestParam(name = "bookId") Integer book_id) {
@@ -80,7 +94,14 @@ public class CartController {
         }
     }
 
-
+    /**
+     * Removes a book from the user's cart. If the quantity of the book is greater than 1, it decreases.
+     * If the quantity is 1, the book is removed from the cart.
+     *
+     * @param principal The authenticated user's principal object containing their username.
+     * @param book_id   The ID of the book to be removed from the cart.
+     * @return A ResponseEntity indicating the result of the operation (e.g., 204 No Content on success).
+     */
     @PutMapping("/delete-item")
     public ResponseEntity<Void> removeItemToCart(Principal principal,
                                               @RequestParam(name = "bookId") Integer book_id) {
@@ -115,6 +136,12 @@ public class CartController {
         }
     }
 
+    /**
+     * Clears all items from the user's cart.
+     *
+     * @param principal The authenticated user's principal object containing their username.
+     * @return A ResponseEntity indicating the result of the operation (e.g., 204 No Content on success).
+     */
     @PutMapping("/clear-cart")
     public ResponseEntity<CartDTO> clearCart(Principal principal){
         String username = principal.getName();

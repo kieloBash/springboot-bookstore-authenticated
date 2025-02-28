@@ -3,6 +3,16 @@ package com.example.bookstore.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * Represents an item in an order. Each item corresponds to a book purchased in the order.
+ * The total amount for the item is calculated based on the quantity and the price of the book.
+ *
+ * @id Integer - Unique identifier for the item in the order (Primary Key).
+ * @order Order - The order to which this item belongs. This is a foreign key referencing the Order entity.
+ * @item Book - The book associated with this item in the order. This is a foreign key referencing the Book entity.
+ * @quantity Integer - The quantity of the book in the order.
+ * @total_amount Double - The total amount for this item, calculated by multiplying the book's price by the quantity.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

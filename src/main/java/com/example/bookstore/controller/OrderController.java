@@ -29,6 +29,13 @@ public class OrderController {
         this.cartsService = cartsService;
     }
 
+    /**
+     * Creates a new order from a user's cart and clears the cart afterward.
+     *
+     * @param principal The currently authenticated user.
+     * @param cart_id   The ID of the user's cart to create an order from.
+     * @return A ResponseEntity containing the created Order or an error response.
+     */
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(Principal principal, @RequestBody Integer cart_id) {
         String username = principal.getName();
@@ -62,6 +69,13 @@ public class OrderController {
         }
     }
 
+
+    /**
+     * Retrieves a list of all orders for the currently authenticated user.
+     *
+     * @param principal The currently authenticated user.
+     * @return A ResponseEntity containing the list of OrderDTOs or an error response.
+     */
     @GetMapping("/user")
     public ResponseEntity<List<OrderDTO>> getAllUserOrders(Principal principal){
         String username = principal.getName();

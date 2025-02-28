@@ -19,6 +19,13 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    /**
+     * Retrieves all books, with optional filtering by search term and category.
+     *
+     * @param search   The search term to filter books by (optional).
+     * @param category The category to filter books by (optional).
+     * @return A ResponseEntity containing a list of books with status 200 OK, or 404 Not Found if no books are found.
+     */
     @GetMapping
     public ResponseEntity<List<BookDTO>> getAllBooks(
             @RequestParam(name = "search", required = false, defaultValue = "") String search,
@@ -46,7 +53,12 @@ public class BookController {
         }
     }
 
-
+    /**
+     * Retrieves a book by its unique identifier.
+     *
+     * @param book_id The ID of the book to retrieve.
+     * @return A ResponseEntity containing the book with status 200 OK, or 404 Not Found if the book is not found.
+     */
     @GetMapping("/{book_id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable Integer book_id) {
         try {
@@ -68,6 +80,11 @@ public class BookController {
         }
     }
 
+    /**
+     * Retrieves all unique book categories.
+     *
+     * @return A ResponseEntity containing a list of categories with status 200 OK, or 404 Not Found if no categories are found.
+     */
     @GetMapping("/categories")
     public ResponseEntity<List<String>> getAllBookCategories() {
         try {

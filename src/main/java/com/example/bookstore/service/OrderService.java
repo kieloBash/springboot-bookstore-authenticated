@@ -25,6 +25,13 @@ public class OrderService {
         this.cartRepository = cartRepository;
     }
 
+    /**
+     * Finds the corresponding book from the item cart.
+     *
+     * @param itemCart The item cart that contains the book reference.
+     * @return The Book entity found from the repository.
+     * @throws RuntimeException If the book is not found in the repository.
+     */
     private Book findBookByItemCartDTO(ItemCart itemCart){
         try{
             return this.booksRepository
@@ -35,6 +42,15 @@ public class OrderService {
         }
     }
 
+    /**
+     * Creates a new order based on the contents of the user's cart.
+     * This method transfers the items from the cart to an order and calculates the total amount.
+     *
+     * @param username The username of the user making the order.
+     * @param cart_id  The ID of the cart from which the order is created.
+     * @return The newly created order.
+     * @throws RuntimeException If the cart or user cannot be found.
+     */
     @Transactional
     public Order createOrder(String username, Integer cart_id){
         Cart cart = this.cartRepository.findById(cart_id).orElseThrow(()->new RuntimeException("Cart not found"));
@@ -63,6 +79,14 @@ public class OrderService {
         return newOrder;
     }
 
+    /**
+     * Retrieves all orders associated with a given user.
+     * Orders are returned in descending order based on the order date.
+     *
+     * @param username The username of the user whose orders are to be retrieved.
+     * @return A list of OrderDTOs representing the user's orders.
+     * @throws RuntimeException If the user cannot be found.
+     */
     public List<OrderDTO> getAllUserOrder(String username){
         User currrentUser = this.usersRepository.findByUsername(username)
                 .orElseThrow(()->new RuntimeException("User not found!"));

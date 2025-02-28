@@ -3,6 +3,17 @@ package com.example.bookstore.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+/**
+ * Represents a book in the bookstore.
+ *
+ * @id Integer - Unique identifier for the book (Primary Key).
+ * @name String - The name/title of the book.
+ * @description String - A detailed description of the book.
+ * @author String - The author of the book.
+ * @category String - The category or genre of the book.
+ * @price Double - The price of the book.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
