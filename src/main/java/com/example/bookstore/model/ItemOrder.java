@@ -38,5 +38,13 @@ public class ItemOrder {
         this.total_amount = quantity * book.getPrice();
     }
 
+    public ItemOrder(Integer id, Book b, Integer quantity, Order order){
+        this.id = id;
+        this.item = b;
+        this.quantity = quantity;
+        this.order = order;
+        this.total_amount = quantity * b.getPrice();
+    }
+
 
 }

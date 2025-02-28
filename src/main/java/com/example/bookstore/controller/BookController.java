@@ -25,6 +25,7 @@ public class BookController {
             @RequestParam(name = "category", required = false, defaultValue = "") String category) {
 
         try {
+            System.out.println("Controller starts...");
             List<BookDTO> books = this.bookService.getAllBooks(search, category);
 
             // If no books are found after filtering, return 404 Not Found
@@ -32,10 +33,13 @@ public class BookController {
                 return ResponseEntity.notFound().build(); // 404 Not Found
             }
 
+            System.out.println("Controller ends...");
+
             // If books are found, return them with a 200 OK status
             return ResponseEntity.ok(books); // 200 OK
 
         } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
             // If an error occurs during processing, return a 500 Internal Server Error
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null); // 500 Internal Server Error

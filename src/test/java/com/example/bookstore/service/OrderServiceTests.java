@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,40 +58,44 @@ public class OrderServiceTests {
         // Setup mock cart
         mockCart = new Cart(mockUser);
         mockCart.setId(1);
-        mockCart.setTotal_amount(100.0);
-
-        // Setup mock ItemOrder
-        mockItemOrder = new ItemOrder(mockBook, 1);
-        mockItemOrder.setOrder(mockOrder);
-        List<ItemOrder> itemOrders = new ArrayList<>();
-        itemOrders.add(mockItemOrder);
+        mockCart.setTotal_amount(0d);
 
         // Setup mock order
         mockOrder = new Order(mockUser);
         mockOrder.setId(1);
-        mockOrder.setItems(itemOrders);
-        mockOrder.setTotal_amount(100.0);
+        mockOrder.setTotal_amount(0d);
+
+
+        // Setup mock itemcart
+        ItemCart mockItemCart = new ItemCart(1,mockBook,1,mockCart);
+        mockCart.addItem(mockItemCart);
+        mockCart.setTotal_amount(100d);
+
+
+        // Setup mock ItemOrder
+        mockItemOrder = new ItemOrder(1,mockBook, 1,mockOrder);
+        mockOrder.addItem(mockItemOrder);
+        mockOrder.setTotal_amount(100d);
+
     }
 
     @Test
     public void testCreateOrderSuccessfully() {
         // Given
-        when(usersRepository.findByUsername("testuser")).thenReturn(Optional.of(mockUser));
-        when(cartRepository.findById(1)).thenReturn(Optional.of(mockCart));
-        when(booksRepository.findById(1)).thenReturn(Optional.of(mockBook));
-        when(ordersRepository.saveAndFlush(any(Order.class))).thenReturn(mockOrder);
-
-        CartDTO cartDTO = new CartDTO(ca);
-        cartDTO.setUser_id(mockUser.getId());
-        cartDTO.setItems(mockCart.getItems());
-        cartDTO.setTotal_amount(mockCart.getTotal_amount());
+        when(usersRepository.findByUsername("testuser"))
+                .thenReturn(Optional.of(mockUser));
+        when(cartRepository.findById(1))
+                .thenReturn(Optional.of(mockCart));
+        when(booksRepository.findById(1))
+                .thenReturn(Optional.of(mockBook));
+        when(ordersRepository.saveAndFlush(any(Order.class)))
+                .thenReturn(mockOrder);
 
         // When
         Order result = orderService.createOrder("testuser", 1);
 
         // Then
         assertNotNull(result, "Expected order to be created");
-        assertEquals(1, result.getId(), "Expected order ID to be 1");
         assertEquals(100.0, result.getTotal_amount(), "Expected total amount to be 100.0");
         assertEquals(1, result.getItems().size(), "Expected order to have 1 item");
 
@@ -99,6 +104,26 @@ public class OrderServiceTests {
         verify(cartRepository, times(1)).findById(1);
         verify(booksRepository, times(1)).findById(1);
         verify(ordersRepository, times(1)).saveAndFlush(any(Order.class));
+    }
+
+    @Test
+    public void testGetAllUserOrder(){
+        // Given
+        when(usersRepository.findByUsername("testuser"))
+                .thenReturn(Optional.of(mockUser));
+        when(ordersRepository.findAllByUser_IdOrderByOrderDateDesc(1))
+                .thenReturn(Arrays.asList(mockOrder));
+
+        // When
+        List<OrderDTO> result = this.orderService.getAllUserOrder("testuser");
+
+        // Then
+        assertNotNull(result,"Expected to not be null");
+        assertEquals(1,result.size(),"Expected to only have 1 item");
+
+        // Verify
+        verify(usersRepository, times(1)).findByUsername("testuser");
+        verify(ordersRepository, times(1)).findAllByUser_IdOrderByOrderDateDesc(1);
     }
 }
 

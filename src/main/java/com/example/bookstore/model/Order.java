@@ -37,4 +37,8 @@ public class Order {
         this.orderDate = new Date();
     }
 
+    public void addItem(ItemOrder itemOrder){
+        this.items.add(itemOrder);
+    }
+
 }

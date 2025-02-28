@@ -21,6 +21,7 @@ public class BookService {
     }
 
     public List<BookDTO> getAllBooks(String filterName, String filterCategory) {
+        System.out.println("Service starts...");
         List<Book> booksList = this.bookRepository.findAll();
 
         if(filterName != null && !filterName.trim().isEmpty()){
@@ -34,6 +35,8 @@ public class BookService {
                     .filter(book-> book.getCategory().equalsIgnoreCase(filterCategory))
                     .toList();
         }
+
+        System.out.println("Service ends...");
 
         return booksList.stream()
                 .map(BookDTO::new)

@@ -32,4 +32,12 @@ public class ItemCart {
         this.total_amount = 1 * book.getPrice();
     }
 
+    public ItemCart(Integer id, Book book, Integer quantity, Cart cart){
+        this.id = id;
+        this.item = book;
+        this.cart = cart;
+        this.quantity = quantity;
+        this.total_amount = book.getPrice() * quantity;
+    }
+
 }
